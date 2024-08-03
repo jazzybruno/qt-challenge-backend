@@ -17,6 +17,8 @@ public class Post extends Base {
     private String title;
     @Column(name = "content" , nullable = false)
     private String content;
+    private int numberOfComments;
+    private int numberOfLikes;
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
