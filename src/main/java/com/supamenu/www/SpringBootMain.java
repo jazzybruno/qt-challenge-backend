@@ -53,7 +53,7 @@ public class SpringBootMain {
     public void seedData() {
         Set<EUserRole> userRoleSet = new HashSet<>();
         userRoleSet.add(EUserRole.ADMIN);
-            userRoleSet.add(EUserRole.CUSTOMER);
+            userRoleSet.add(EUserRole.USER);
         for (EUserRole role : userRoleSet) {
             if (!this.roleService.isRolePresent(role)) {
                 this.roleService.createRole(role);

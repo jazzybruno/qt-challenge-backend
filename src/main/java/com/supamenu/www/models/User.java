@@ -18,7 +18,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}), @UniqueConstraint(columnNames = {"account"})})
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}), @UniqueConstraint(columnNames = {"username"})})
 @OnDelete(action = OnDeleteAction.CASCADE)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,21 +36,14 @@ public class User extends Base {
     @Transient
     private String fullName;
 
-    public String getFullName() {
-        return firstName + " " + lastName;
-    }
-
     @Column(name = "telephone")
     private String telephone;
 
     @Column(name = "dob")
     private Date dateOfBirth;
 
-    @Column(name = "account")
-    private String account;
-
-    @Column(name = "balance")
-    private float balance;
+    @Column(name = "username")
+    private String username;
 
     @JsonIgnore
     @Column(name = "password", nullable = true)
@@ -61,13 +54,17 @@ public class User extends Base {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public User(String email, String firstName, String lastName, String telephone, String fullName, String password) {
+    public User(String email, String username , String firstName, String lastName, String telephone, String password) {
         this.email = email;
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.telephone = telephone;
-        this.fullName = fullName;
         this.password = password;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
 }

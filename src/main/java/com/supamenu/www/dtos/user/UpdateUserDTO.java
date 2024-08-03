@@ -12,6 +12,9 @@ public class UpdateUserDTO {
     @Schema(example = "John")
     private String firstName;
 
+    @Schema(example = "_jon_")
+    private String userName;
+
     @Schema(example = "Doe")
     private String lastName;
 

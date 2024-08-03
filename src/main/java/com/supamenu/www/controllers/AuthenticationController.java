@@ -21,6 +21,11 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final UserService userService;
 
+    @PostMapping("/create-user")
+    public ResponseEntity<ApiResponse<UserResponseDTO>> createCustomer(@RequestBody RegisterUserDTO createUserDTO) {
+        return this.authenticationService.createUser(createUserDTO);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody LoginDTO signInDTO) {
         return authenticationService.login(signInDTO);

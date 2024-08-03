@@ -26,11 +26,6 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/create-customer")
-    public ResponseEntity<ApiResponse<UserResponseDTO>> createCustomer(@RequestBody CreateCustomerDTO createUserDTO) {
-        return this.userService.createCustomer(createUserDTO);
-    }
-
     @GetMapping("/get-users")
     public ResponseEntity<ApiResponse<UsersResponseDTO>> getUsers(
             @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page,

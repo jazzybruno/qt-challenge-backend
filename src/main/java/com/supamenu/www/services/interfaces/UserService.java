@@ -14,7 +14,6 @@ public interface UserService {
 
     public User getLoggedInUser();
 
-    public ResponseEntity<ApiResponse<UserResponseDTO>> createCustomer(CreateCustomerDTO createUserDTO);
     public ResponseEntity<ApiResponse<UserResponseDTO>> createAdmin(CreateAdminDTO createUserDTO);
 
     public ResponseEntity<ApiResponse<UsersResponseDTO>> getUsers(Pageable pageable);

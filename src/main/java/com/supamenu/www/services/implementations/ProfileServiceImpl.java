@@ -4,6 +4,7 @@ import com.supamenu.www.dtos.profile.ChangePasswordRequestDTO;
 import com.supamenu.www.dtos.profile.ProfileResponseDTO;
 import com.supamenu.www.dtos.profile.UpdateProfileRequestDTO;
 import com.supamenu.www.dtos.response.ApiResponse;
+import com.supamenu.www.exceptions.BadRequestException;
 import com.supamenu.www.exceptions.CustomException;
 import com.supamenu.www.models.User;
 import com.supamenu.www.repositories.IUserRepository;
@@ -20,6 +21,10 @@ import org.springframework.stereotype.Service;
 public class ProfileServiceImpl implements ProfileService {
     private final UserService userService;
     private final IUserRepository userRepository;
+
+    public boolean isUserPresent(String email , String username) {
+        return userRepository.findUserByUsername(username).isPresent() || userRepository.findUserByEmail(email).isPresent();
+    }
 
     @Override
     public ResponseEntity<ApiResponse<ProfileResponseDTO>> getProfile() {
@@ -38,6 +43,9 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public ResponseEntity<ApiResponse<ProfileResponseDTO>> updateProfile(UpdateProfileRequestDTO updateProfileRequestDTO) {
         try {
+            if(isUserPresent(updateProfileRequestDTO.getEmail() , updateProfileRequestDTO.getUserName())){
+                throw new BadRequestException("The user with the given username or email already exists");
+            }
             User user = userService.getLoggedInUser();
             if (updateProfileRequestDTO.getFirstName() != null)
                 user.setFirstName(updateProfileRequestDTO.getFirstName());

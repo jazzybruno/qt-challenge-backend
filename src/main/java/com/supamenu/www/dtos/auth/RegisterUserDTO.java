@@ -11,6 +11,11 @@ import java.util.Date;
 
 @Data
 public class RegisterUserDTO {
+
+    @Schema(example = "_joh_")
+    @NotBlank(message = "Username name cannot be blank")
+    private String userName;
+
     @Schema(example = "John")
     @NotBlank(message = "First name cannot be blank")
     private String firstName;

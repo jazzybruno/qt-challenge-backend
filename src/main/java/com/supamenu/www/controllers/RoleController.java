@@ -21,13 +21,8 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasAnyAuthority('ADMIN')")
 public class RoleController {
     private final RoleService roleService;
-
-    @PostMapping("/create-role")
-    public ResponseEntity<ApiResponse<RoleResponseDTO>> createRole(@Valid @RequestBody CreateRoleDTO createRoleDTO) {
-        return roleService.createRole(createRoleDTO);
-    }
-
     @GetMapping("/get-roles")
+
     public ResponseEntity<ApiResponse<RolesResponseDTO>> getAllRoles(
             @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(value = "size", defaultValue = Constants.DEFAULT_PAGE_SIZE) int limit

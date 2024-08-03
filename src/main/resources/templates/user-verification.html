@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpringBoot Account Verification Successfully</title>
+    <title>User Verification Code</title>
     <style>
         body {
             font-family: 'Garamond', sans-serif;
-            margin: 10px;
+            margin: 0;
             padding: 0;
+            background-color: #f0f9ff; /* Light sky-blue background */
         }
 
         table {
@@ -33,25 +34,38 @@
         }
 
         h2 {
-            color: rgba(56, 76, 162, 255);
+            color: #87ceeb; /* Sky-blue color */
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: #4682b4; /* Steel-blue color */
             margin-bottom: 20px;
         }
 
         p {
-            color: #555;
+            color: #333; /* Darker text for readability */
             margin-bottom: 20px;
+        }
+
+        .verification-code {
+            color: #000;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 24px;
+            cursor: default;
         }
 
         a {
             display: inline-block;
             padding: 10px 20px;
-            background-color: rgba(56, 76, 162, 255);
+            background-color: #87ceeb; /* Sky-blue color */
             color: #ffffff;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
             font-size: 16px;
-            margin-top: 20px;
             cursor: pointer;
         }
 
@@ -60,7 +74,7 @@
         }
 
         .footer {
-            background-color: rgba(56, 76, 162, 0.8);
+            background-color: #4682b4; /* Steel-blue color */
             color: #ffffff;
             padding: 10px;
             border-radius: 0 0 8px 8px;
@@ -79,14 +93,16 @@
     <table cellpadding="0" cellspacing="0" border="0">
         <tr>
             <td class="content">
-                <h2>Banking Operation</h2>
+                <h2>QT TEST - User Verification</h2>
                 <h3>Hello <span th:text="${fullNames}">Name</span></h3>
-                <p><span th:text="${message}">Message</span></p>
+                <p>Your verification code is:</p>
+                <p class="verification-code"><span th:text="${verificationCode}">123456</span></p>
+                <a href="#" th:href="@{${verificationLink}}">Verify Your Email</a>
             </td>
         </tr>
         <tr>
             <td class="footer">
-                &copy; 2024 NE Banking Operation. All rights reserved.
+                &copy; 2024 QT TEST. All rights reserved.
             </td>
         </tr>
     </table>

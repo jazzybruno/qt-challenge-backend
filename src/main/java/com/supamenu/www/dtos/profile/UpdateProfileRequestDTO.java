@@ -13,6 +13,9 @@ public class UpdateProfileRequestDTO {
     @Schema(example = "John")
     private String firstName;
 
+    @Schema(example = "John")
+    private String userName;
+
     @Schema(example = "Doe")
     private String lastName;
 
