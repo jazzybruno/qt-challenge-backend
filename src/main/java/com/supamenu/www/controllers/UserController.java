@@ -27,12 +27,9 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/get-users")
-    public ResponseEntity<ApiResponse<UsersResponseDTO>> getUsers(
-            @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page,
-            @RequestParam(value = "size", defaultValue = Constants.DEFAULT_PAGE_SIZE) int limit
+    public ResponseEntity<ApiResponse<List<User>>> getUsers(
     ) {
-        Pageable pageable = (Pageable) PageRequest.of(page, limit, Sort.Direction.ASC, "id");
-        return userService.getUsers(pageable);
+        return userService.getUsers();
     }
 
     @GetMapping("/get-user/{userId}")

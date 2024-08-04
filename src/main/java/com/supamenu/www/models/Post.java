@@ -11,8 +11,6 @@ import lombok.*;
 @Getter
 @Setter
 public class Post extends Base {
-    @Column(name = "imagePath" , nullable = false)
-    private String imagePath;
     @Column(name = "title" , nullable = false)
     private String title;
     @Column(name = "content" , nullable = false)

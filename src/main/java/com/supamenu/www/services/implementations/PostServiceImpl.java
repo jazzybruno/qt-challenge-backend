@@ -34,7 +34,7 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public Post createPost( MultipartFile multipartFile , CreateUpdatePost createPost) {
+    public Post createPost( CreateUpdatePost createPost) {
         try {
             User user = userService.getLoggedInUser();
             if(user == null) {
@@ -43,33 +43,21 @@ public class PostServiceImpl implements PostService {
                 );
             }
             Post post = new Post();
-            if(!multipartFile.isEmpty()) {
-                String imagePath = fileService.uploadFile(multipartFile);
-                post.setImagePath(imagePath);
-            }else{
-                post.setImagePath(null);
-            }
             post.setTitle(createPost.getTitle());
             post.setContent(createPost.getContent());
             post.setAuthor(user);
             return postRepository.save(post);
         }catch (Exception e){
+            e.printStackTrace();
             throw new CustomException(e);
         }
     }
 
     @Override
-    public Post updatePost(UUID postId, MultipartFile multipartFile, CreateUpdatePost updatePost) {
+    public Post updatePost(UUID postId, CreateUpdatePost updatePost) {
         try {
             // get post by id
             Post post = postRepository.findById(postId).orElseThrow(()-> new NotFoundException("The post does not exist"));
-            if(!multipartFile.isEmpty()) {
-                if(post.getImagePath() != null){
-                    fileService.deleteFile(post.getImagePath());
-                }
-                String imagePath = fileService.uploadFile(multipartFile);
-                post.setImagePath(imagePath);
-            }
             post.setTitle(updatePost.getTitle());
             post.setContent(updatePost.getContent());
             post.setUpdatedAt(LocalDateTime.now());
@@ -83,9 +71,6 @@ public class PostServiceImpl implements PostService {
     public Post deletePost(@PathVariable UUID postId) {
         try {
             Post post = postRepository.findById(postId).orElseThrow(()-> new NotFoundException("The post does not exist"));
-            if(post.getImagePath() != null) {
-                    fileService.deleteFile(post.getImagePath());
-                }
                 postRepository.deleteById(postId);
             return post;
         }catch (Exception e){

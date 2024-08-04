@@ -22,7 +22,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse<Comment>> createComment(CreateCommentDTO createCommentDTO) {
+    public ResponseEntity<ApiResponse<Comment>> createComment(@RequestBody CreateCommentDTO createCommentDTO) {
         try {
             return ApiResponse.success(
                     "Successfully Created the comment",

@@ -6,6 +6,7 @@ import com.supamenu.www.models.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
@@ -16,7 +17,7 @@ public interface UserService {
 
     public ResponseEntity<ApiResponse<UserResponseDTO>> createAdmin(CreateAdminDTO createUserDTO);
 
-    public ResponseEntity<ApiResponse<UsersResponseDTO>> getUsers(Pageable pageable);
+    public ResponseEntity<ApiResponse<List<User>>> getUsers();
 
     public ResponseEntity<ApiResponse<UserResponseDTO>> getUserById(UUID uuid);
 

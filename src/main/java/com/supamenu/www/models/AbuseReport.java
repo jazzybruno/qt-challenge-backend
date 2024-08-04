@@ -15,6 +15,7 @@ import lombok.*;
 @Setter
 public class AbuseReport extends Base {
     private String title;
+
     private String description;
 
 

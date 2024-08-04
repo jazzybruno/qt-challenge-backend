@@ -6,6 +6,7 @@ import com.supamenu.www.exceptions.CustomException;
 import com.supamenu.www.models.Post;
 import com.supamenu.www.services.interfaces.PostService;
 import com.supamenu.www.utils.Constants;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,25 +28,25 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse<Post>> createPost( @RequestParam("image") MultipartFile multipartFile, @ModelAttribute CreateUpdatePost createPost) {
+    public ResponseEntity<ApiResponse<Post>> createPost( @RequestBody CreateUpdatePost createPost) {
         try {
-           return ApiResponse.success(
-                   "Sucessfully created a post",
-                   HttpStatus.CREATED,
-                   postService.createPost(multipartFile, createPost)
-           );
-        }catch (Exception e){
+            return ApiResponse.success(
+                    "Successfully created a post",
+                    HttpStatus.CREATED,
+                    postService.createPost(createPost)
+            );
+        } catch (Exception e) {
             throw new CustomException(e);
         }
     }
 
     @PutMapping("/update/{postId}")
-    public ResponseEntity<ApiResponse<Post>> updatePost(@PathVariable UUID postId,  @RequestParam("image") MultipartFile multipartFile, @ModelAttribute CreateUpdatePost updatePost) {
+    public ResponseEntity<ApiResponse<Post>> updatePost(@PathVariable UUID postId,   @RequestBody CreateUpdatePost updatePost) {
         try {
             return ApiResponse.success(
                     "Post updated successfully",
                     HttpStatus.OK,
-                    postService.updatePost(postId, multipartFile, updatePost)
+                    postService.updatePost(postId, updatePost)
             );
         }catch (Exception e){
             throw new CustomException(e);

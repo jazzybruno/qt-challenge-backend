@@ -77,13 +77,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<ApiResponse<UsersResponseDTO>> getUsers(Pageable pageable) {
+    public ResponseEntity<ApiResponse<List<User>>> getUsers() {
         try {
-            Page<User> users = userRepository.findAll(pageable);
+            List<User> users = userRepository.findAll();
             for (User user : users) {
                 user.setFullName(user.getFirstName() + " " + user.getLastName());
             }
-            return ApiResponse.success("Successfully fetched all users", HttpStatus.OK, new UsersResponseDTO(users));
+            return ApiResponse.success("Successfully fetched all users", HttpStatus.OK, users);
         } catch (Exception e) {
             throw new CustomException(e);
         }
@@ -105,19 +105,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public ResponseEntity<ApiResponse<UserResponseDTO>> updateUser(UUID userId, UpdateUserDTO updateUserDTO) {
         try {
             User user = findUserById(userId);
-            if(isUserPresent(updateUserDTO.getEmail() , updateUserDTO.getUserName())){
-                throw new BadRequestException("User with email or username already exists");
+
+// Check if the email or username in the updateUserDTO already exists in the repository
+            boolean emailChanged = updateUserDTO.getEmail() != null && !updateUserDTO.getEmail().equals(user.getEmail());
+            boolean usernameChanged = updateUserDTO.getUserName() != null && !updateUserDTO.getUserName().equals(user.getUsername());
+
+            if (emailChanged && userRepository.findUserByEmail(updateUserDTO.getEmail()).isPresent()) {
+                throw new BadRequestException("User with email already exists");
             }
-            if (user.getEmail() != null) user.setEmail(updateUserDTO.getEmail());
-            if (user.getFirstName() != null) user.setFirstName(updateUserDTO.getFirstName());
-            if (user.getLastName() != null) user.setLastName(updateUserDTO.getLastName());
-            if (user.getTelephone() != null) user.setTelephone(updateUserDTO.getPhoneNumber());
+
+            if (usernameChanged && userRepository.findUserByUsername(updateUserDTO.getUserName()).isPresent()) {
+                throw new BadRequestException("User with username already exists");
+            }
+
+// Update user details
+            if (updateUserDTO.getEmail() != null) user.setEmail(updateUserDTO.getEmail());
+            if (updateUserDTO.getFirstName() != null) user.setFirstName(updateUserDTO.getFirstName());
+            if (updateUserDTO.getLastName() != null) user.setLastName(updateUserDTO.getLastName());
+            if (updateUserDTO.getUserName() != null) user.setUsername(updateUserDTO.getUserName());
+            if (updateUserDTO.getPhoneNumber() != null) user.setTelephone(updateUserDTO.getPhoneNumber());
+
+            user.setUpdatedAt(LocalDateTime.now());
+            userRepository.save(user);
+
             return ApiResponse.success("Successfully updated the user", HttpStatus.OK, new UserResponseDTO(user));
         } catch (Exception e) {
+            e.printStackTrace();
             throw new CustomException(e);
         }
     }

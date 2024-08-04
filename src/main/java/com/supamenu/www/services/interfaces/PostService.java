@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PostService {
-    Post createPost(MultipartFile multipartFile ,  CreateUpdatePost createPost);
-    Post updatePost(UUID postId , MultipartFile multipartFile  , CreateUpdatePost updatePost);
+    Post createPost( CreateUpdatePost createPost);
+    Post updatePost(UUID postId , CreateUpdatePost updatePost);
     Post deletePost(UUID postId);
     List<Post> getAllPosts();
     Page<Post> getAllPosts(Pageable pageable);

@@ -34,7 +34,11 @@ public class CommentServiceImpl implements CommentService {
             Comment comment = new Comment();
             comment.setPost(post);
             comment.setAuthor(user);
+            post.setNumberOfComments(post.getNumberOfComments() + 1);
             comment.setComment(createCommentDTO.getComment());
+            postRepository.save(
+                    post
+            );
             return commentRepository.save(comment);
         }catch (Exception e){
             throw new CustomException(e);
