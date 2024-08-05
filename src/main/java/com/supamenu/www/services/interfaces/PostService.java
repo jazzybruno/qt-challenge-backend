@@ -13,7 +13,5 @@ public interface PostService {
     Post updatePost(UUID postId , CreateUpdatePost updatePost);
     Post deletePost(UUID postId);
     List<Post> getAllPosts();
-    Page<Post> getAllPosts(Pageable pageable);
-    Post getPostById(UUID postId);
     List<Post> getPostByAuthor();
 }

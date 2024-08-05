@@ -79,35 +79,6 @@ public class PostController {
         }
     }
 
-    @GetMapping("/all/paginated")
-    public ResponseEntity<ApiResponse<Page<Post>>> getAllPosts(         @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page,
-                                                                        @RequestParam(value = "size", defaultValue = Constants.DEFAULT_PAGE_SIZE) int limit
-    ) {
-        Pageable pageable = (Pageable) PageRequest.of(page, limit, Sort.Direction.ASC, "id");
-        try {
-            return ApiResponse.success(
-                    "Successfully retrieved paginated posts",
-                    HttpStatus.OK,
-                    postService.getAllPosts(pageable)
-            );
-        }catch (Exception e){
-            throw new CustomException(e);
-        }
-    }
-
-    @GetMapping("/id/{postId}")
-    public ResponseEntity<ApiResponse<Post>> getPostById(@PathVariable UUID postId) {
-        try {
-            return ApiResponse.success(
-                    "Successfully Retrieved post",
-                    HttpStatus.OK,
-                    postService.getPostById(postId)
-            );
-        }catch (Exception e){
-            throw new CustomException(e);
-        }
-    }
-
     @GetMapping("/user")
     public ResponseEntity<ApiResponse<List<Post>>> getPostByAuthor() {
         try {

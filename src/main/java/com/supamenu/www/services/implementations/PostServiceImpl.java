@@ -88,24 +88,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<Post> getAllPosts(Pageable pageable) {
-        try {
-            return postRepository.findAll(pageable);
-        }catch (Exception e){
-            throw new CustomException(e);
-        }
-    }
-
-    @Override
-    public Post getPostById(UUID postId) {
-        try {
-            return postRepository.findById(postId).orElseThrow(()-> new NotFoundException("The post does not exist"));
-        }catch (Exception e){
-            throw new CustomException(e);
-        }
-    }
-
-    @Override
     public List<Post> getPostByAuthor() {
         try {
           User user = userService.getLoggedInUser();
