@@ -117,6 +117,7 @@ public class AbuseReportServiceImpl implements AbuseReportService {
             }
             return abuseReportRepository.findAllByAuthor(user);
         }catch (Exception e){
+            e.printStackTrace();
             throw new CustomException(e);
         }
     }

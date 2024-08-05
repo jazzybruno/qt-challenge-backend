@@ -10,16 +10,15 @@ import lombok.*;
 @Table(name = "comments")
 @Getter
 @Setter
-public class Comment extends Base{
+public class Comment extends Base {
 
     private String comment;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "author")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
     private User author;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
-
 }

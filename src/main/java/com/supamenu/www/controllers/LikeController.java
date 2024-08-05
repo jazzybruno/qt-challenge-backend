@@ -19,7 +19,7 @@ import java.util.UUID;
 public class LikeController {
     private final LikeService likeService;
 
-    @DeleteMapping("/id/{likeId}")
+    @DeleteMapping("/delete/{likeId}")
     public ResponseEntity<ApiResponse<Like>> deleteLike(@PathVariable UUID likeId) {
         try {
             return ApiResponse.success(

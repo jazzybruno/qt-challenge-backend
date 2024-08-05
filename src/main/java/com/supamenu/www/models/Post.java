@@ -1,7 +1,6 @@
 package com.supamenu.www.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,10 +15,12 @@ import java.util.List;
 @Getter
 @Setter
 public class Post extends Base {
-    @Column(name = "title" , nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
-    @Column(name = "content" , nullable = false)
+
+    @Column(name = "content", nullable = false)
     private String content;
+
     private int numberOfComments;
     private int numberOfLikes;
 
@@ -27,15 +28,14 @@ public class Post extends Base {
     @JoinColumn(name = "author_id")
     private User author;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Like> likes = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL  , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL , fetch = FetchType.LAZY )
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<AbuseReport> abuseReports = new ArrayList<>();
 }

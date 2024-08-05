@@ -34,9 +34,6 @@ public class LikeServiceImpl implements LikeService {
                 throw new AuthenticationException("You are not logged in");
             }
             Post post = postRepository.findById(like.getPostId()).orElseThrow(() -> new NotFoundException("The post was not found"));
-            if(!(likeRepository.findAllByAuthorAndPost(user , post).isEmpty())){
-                throw new BadRequestException("You have already liked this post");
-            }
             post.setNumberOfLikes(post.getNumberOfLikes() + 1);
             Like like1 = new Like();
             like1.setPost(post);
@@ -62,6 +59,7 @@ public class LikeServiceImpl implements LikeService {
             likeRepository.deleteById(likeId);
             return like;
         }catch (Exception e){
+            e.printStackTrace();
             throw new CustomException(e);
         }
     }

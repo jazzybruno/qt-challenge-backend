@@ -10,16 +10,13 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.Date;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}), @UniqueConstraint(columnNames = {"username"})})
-@OnDelete(action = OnDeleteAction.CASCADE)
 @NoArgsConstructor
 @AllArgsConstructor
 public class User extends Base {
@@ -49,12 +46,27 @@ public class User extends Base {
     @Column(name = "password", nullable = true)
     private String password;
 
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public User(String email, String username , String firstName, String lastName, String telephone, String password) {
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
+    private List<Like> likeList = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
+    private List<Comment> comments = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
+    private List<AbuseReport> abuseReports = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
+    private List<Post> posts = new ArrayList<>();
+
+    public User(String email, String username, String firstName, String lastName, String telephone, String password) {
         this.email = email;
         this.username = username;
         this.firstName = firstName;
@@ -66,5 +78,4 @@ public class User extends Base {
     public String getFullName() {
         return firstName + " " + lastName;
     }
-
 }
