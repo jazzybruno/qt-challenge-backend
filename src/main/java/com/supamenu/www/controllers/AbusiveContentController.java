@@ -74,6 +74,19 @@ public class AbusiveContentController {
         }
     }
 
+    @GetMapping("/all/user")
+    public ResponseEntity<ApiResponse<List<AbuseReport>>> getAbusiveReportsByUser() {
+        try {
+            return ApiResponse.success(
+                    "Successfully retrieved Reports by user",
+                    HttpStatus.OK,
+                    abuseReportService.getAbusiveReportsByUser()
+            );
+        }catch (Exception e){
+            throw new CustomException(e);
+        }
+    }
+
     @GetMapping("/post/{postId}")
     public ResponseEntity<ApiResponse<List<AbuseReport>>> getAbusiveReportsByPost(@PathVariable UUID postId) {
         try {

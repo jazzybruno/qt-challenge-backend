@@ -1,9 +1,6 @@
 package com.supamenu.www.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -18,7 +15,6 @@ public class AbuseReport extends Base {
 
     private String description;
 
-
     @ManyToOne
     @JoinColumn(name = "author")
     private User author;
@@ -27,7 +23,7 @@ public class AbuseReport extends Base {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "comment_id")
     private Comment comment;
 }

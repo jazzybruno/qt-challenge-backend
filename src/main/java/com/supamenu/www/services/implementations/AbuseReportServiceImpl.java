@@ -107,5 +107,18 @@ public class AbuseReportServiceImpl implements AbuseReportService {
             throw new CustomException(e);
         }
     }
+
+    @Override
+    public List<AbuseReport> getAbusiveReportsByUser() {
+        try {
+            User user = userService.getLoggedInUser();
+            if(user == null){
+                throw new AuthenticationException("You are not logged in");
+            }
+            return abuseReportRepository.findAllByAuthor(user);
+        }catch (Exception e){
+            throw new CustomException(e);
+        }
+    }
 }
 

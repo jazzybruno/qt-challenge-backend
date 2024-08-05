@@ -1,6 +1,7 @@
 package com.supamenu.www.services.implementations;
 
 import com.supamenu.www.dtos.like.CreateLikeDTO;
+import com.supamenu.www.exceptions.BadRequestException;
 import com.supamenu.www.exceptions.CustomException;
 import com.supamenu.www.exceptions.NotFoundException;
 import com.supamenu.www.models.Like;
@@ -33,6 +34,9 @@ public class LikeServiceImpl implements LikeService {
                 throw new AuthenticationException("You are not logged in");
             }
             Post post = postRepository.findById(like.getPostId()).orElseThrow(() -> new NotFoundException("The post was not found"));
+            if(!(likeRepository.findAllByAuthorAndPost(user , post).isEmpty())){
+                throw new BadRequestException("You have already liked this post");
+            }
             post.setNumberOfLikes(post.getNumberOfLikes() + 1);
             Like like1 = new Like();
             like1.setPost(post);

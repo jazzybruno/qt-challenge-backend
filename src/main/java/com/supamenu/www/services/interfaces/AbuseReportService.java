@@ -14,4 +14,6 @@ public interface AbuseReportService {
     List<AbuseReport> getAbusiveReports();
     List<AbuseReport> getAbusiveReportsByPost(UUID postId);
     List<AbuseReport> getAbusiveReportsByComment(UUID commentId);
+
+    List<AbuseReport> getAbusiveReportsByUser();
 }
